@@ -1,40 +1,34 @@
 require "date"
 
 class Todo
- 
-  def initialize(text,due_date,completed)
-    @text=text
-    @due_date=due_date
-    @completed=completed
+  def initialize(text, due_date, completed)
+    @text = text
+    @due_date = due_date
+    @completed = completed
   end
 
   def overdue?
-    @due_date<Date.today
+    @due_date < Date.today
   end
 
   def due_today?
-    @due_date==Date.today
+    @due_date == Date.today
   end
 
   def due_later?
-    @due_date>Date.today  
+    @due_date > Date.today
   end
 
   def to_displayable_string
-    
-    result=''
+    result = ""
     if @completed
-      result='[X]'
+      result = "[X]"
     else
-      result='[ ]'
+      result = "[ ]"
     end
-
-    return result+' '+@text if due_today?
-
-    result+' '+@text+' '+@due_date.to_s
-
+    return result + " " + @text if due_today?
+    result + " " + @text + " " + @due_date.to_s
   end
-
 end
 
 class TodosList
@@ -44,7 +38,7 @@ class TodosList
 
   def overdue
     TodosList.new(@todos.filter { |todo| todo.overdue? })
-  end  
+  end
 
   def add(todos)
     @todos.push(todos)
@@ -52,18 +46,15 @@ class TodosList
 
   def due_today
     TodosList.new(@todos.filter { |todo| todo.due_today? })
-  end  
+  end
 
   def due_later
     TodosList.new(@todos.filter { |todo| todo.due_later? })
-  end  
-
-  def to_displayable_list
-    result=[]
-    @todos.each{ |todo| result.push todo.to_displayable_string }
-    result
   end
 
+  def to_displayable_list
+   result= @todos.map { |todo| todo.to_displayable_string }
+  end
 end
 
 date = Date.today
