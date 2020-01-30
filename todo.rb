@@ -20,14 +20,10 @@ class Todo
   end
 
   def to_displayable_string
-    result = ""
-    if @completed
-      result = "[X]"
-    else
-      result = "[ ]"
-    end
-    return result + " " + @text if due_today?
-    result + " " + @text + " " + @due_date.to_s
+    display_status = "[ ]"
+    display_status = "[X]" if @completed
+    display_date = @due_date if not due_today?
+    "#{display_status} #{@text} #{display_date}"
   end
 end
 
@@ -53,7 +49,7 @@ class TodosList
   end
 
   def to_displayable_list
-   result= @todos.map { |todo| todo.to_displayable_string }
+    result = @todos.map { |todo| todo.to_displayable_string }
   end
 end
 
